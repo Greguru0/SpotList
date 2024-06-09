@@ -34,6 +34,8 @@ Create a Spotify playlist from setlist data retrieved from Setlist.fm.
     python your_script.py
     ```
 
+    - OR run the Python application directly.
+
 ## Example `.env` File
 
 ## Usage
