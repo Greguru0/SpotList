@@ -4,25 +4,34 @@ import tkinter as tk
 from tkinter import messagebox, scrolledtext
 import threading
 import time
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
 import os
 import webbrowser
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import datetime
 
+
 # Load environment variables from .env file
 load_dotenv()
 
-SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-REDIRECT_URI = 'http://localhost:5000/callback'
+env_path = '.env'
+
+def get_env_variable(var_name, prompt):
+    value = os.getenv(var_name)
+    if not value:
+        value = input(prompt)
+        set_key(env_path, var_name, value)
+    return value
+REDIRECT_URI = get_env_variable('REDIRECT_URI', 'Enter the Redirect URI: ')
+SPOTIFY_CLIENT_ID = get_env_variable('SPOTIFY_CLIENT_ID', 'Enter your Spotify Client ID: ')
+SPOTIFY_CLIENT_SECRET = get_env_variable('SPOTIFY_CLIENT_SECRET', 'Enter your Spotify Client Secret: ')
 
 if not SPOTIFY_CLIENT_ID:
-    raise Exception("SPOTIFY_CLIENT_ID not found in environment variables. Make sure to set it in the .env file.")
+    raise Exception("SPOTIFY_CLIENT_ID not found in environment variables. Make sure to set it in the environment.")
 
 if not SPOTIFY_CLIENT_SECRET:
-    raise Exception("SPOTIFY_CLIENT_SECRET not found in environment variables. Make sure to set it in the .env file.")
+    raise Exception("SPOTIFY_CLIENT_SECRET not found in environment variables. Make sure to set it in the environment.")
 
 auth_code = None
 access_token = None
