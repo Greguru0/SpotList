@@ -17,8 +17,9 @@ Create a Spotify playlist from setlist data retrieved from Setlist.fm.
 
 5. **Create a file named `.env` in the project folder** with the following content:
     ```
-    SPOTIFY_CLIENT_ID=your_spotify_client_id
-    SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+   REDIRECT_URI=http://localhost:5000/callback
+   SPOTIFY_CLIENT_ID=your_spotify_client_id
+   SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
     ```
 
 6. **Install the required packages**:
@@ -38,11 +39,6 @@ Create a Spotify playlist from setlist data retrieved from Setlist.fm.
     ```
     python your_script.py
     ```
-## Example `.env` File
-
-SPOTIFY_CLIENT_ID=your_client_id
-SPOTIFY_CLIENT_SECRET=your_secret_id
-
 ## Usage
 
 1. **Authenticate with Spotify**: Follow the prompt to authenticate with Spotify.
