@@ -47,5 +47,5 @@ Create a Spotify playlist from setlist data retrieved from Setlist.fm.
 
 ## Important Notes
 
-- Make sure to set the Redirect URI in your Spotify application settings to `http://localhost:5000/callback`.
+- Make sure to set the Redirect URI in your Spotify application settings to the REDIRECT_URI in the .env file.
 
