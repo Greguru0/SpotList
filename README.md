@@ -29,14 +29,19 @@ Create a Spotify playlist from setlist data retrieved from Setlist.fm.
     ```
 
 7. **Run the application**:
+
+    - Run the Python application directly.
+    
+    OR
+    
     - Execute the following command in Powershell:
     ```
     python your_script.py
     ```
-
-    - OR run the Python application directly.
-
 ## Example `.env` File
+
+SPOTIFY_CLIENT_ID=your_client_id
+SPOTIFY_CLIENT_SECRET=your_secret_id
 
 ## Usage
 
