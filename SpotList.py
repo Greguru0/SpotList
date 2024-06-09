@@ -1,3 +1,5 @@
+# SpotList
+
 import requests
 from bs4 import BeautifulSoup
 import tkinter as tk
@@ -20,12 +22,15 @@ env_path = '.env'
 def get_env_variable(var_name, prompt):
     value = os.getenv(var_name)
     if not value:
-        value = input(prompt)
+        value = input(prompt).strip()
         set_key(env_path, var_name, value)
     return value
 REDIRECT_URI = get_env_variable('REDIRECT_URI', 'Enter the Redirect URI: ')
 SPOTIFY_CLIENT_ID = get_env_variable('SPOTIFY_CLIENT_ID', 'Enter your Spotify Client ID: ')
 SPOTIFY_CLIENT_SECRET = get_env_variable('SPOTIFY_CLIENT_SECRET', 'Enter your Spotify Client Secret: ')
+
+if not REDIRECT_URI:
+    raise Exception("REDIRECT_URI not found in environment variables. Make sure to set it in the environment.")
 
 if not SPOTIFY_CLIENT_ID:
     raise Exception("SPOTIFY_CLIENT_ID not found in environment variables. Make sure to set it in the environment.")
@@ -79,7 +84,7 @@ server_thread = None
 def get_authorization_url():
     client_id = SPOTIFY_CLIENT_ID
     redirect_uri = REDIRECT_URI
-    scopes = 'user-read-private user-read-email playlist-modify-private playlist-modify-public'
+    scopes = 'user-read-private user-read-email playlist-modify-private playlist-modify-public playlist-read-private'
     prompt = 'consent'
 
     auth_url = 'https://accounts.spotify.com/authorize'
@@ -164,10 +169,15 @@ def playlist_count(access_token):
     }
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        return response.json()['total']
+        data = response.json()
+        print(data)
+        print(data['total'])
+        return data['total']  # Directly use the 'total' field
     else:
         print(f"Failed to retrieve playlists: {response.status_code}")
     return 0
+
+
 
 def API_create_playlist(API_output):
     global access_token, user_profile, details, playlist_id, playlist_name
@@ -266,11 +276,9 @@ def API_add_songs(API_output, playlist_name, playlist_id, songs):
         data = {
             'uris': uris
         }
-
-        API_output.insert(tk.END, f'\nAdding {len(uris)} songs to playlist "{playlist_name}"\n')
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()
-        API_output.insert(tk.END, f"{success_num} songs added to playlist '{playlist_name}' successfully!\n")
+        API_output.insert(tk.END, f"{success_num} songs added to playlist successfully!\n")
         if failed_num >0:
             API_output.insert(tk.END, f"{failed_num} songs failed to resolve track_uri.\n")
             API_output.insert(tk.END, f"Failed songs:\n")
@@ -436,7 +444,7 @@ def on_closing():
     root.destroy()
 
 root = tk.Tk()
-root.title("Setlist Scraper")
+root.title("SpotList")
 
 label_user_name = tk.Label(root, text="Hello, User. Please authenticate", fg="red")
 label_user_name.pack(pady=5)
