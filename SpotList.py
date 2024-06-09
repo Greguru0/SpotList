@@ -451,7 +451,7 @@ listbox_setlists = tk.Listbox(root, width=80, height=15)
 listbox_setlists.pack(pady=5)
 listbox_setlists.bind('<<ListboxSelect>>', on_select)
 
-setlist_details = scrolledtext.ScrolledText(root, width=60, height=25)
+setlist_details = scrolledtext.ScrolledText(root, width=75, height=25)
 setlist_details.pack(pady=5)
 
 root.protocol("WM_DELETE_WINDOW", on_closing)
